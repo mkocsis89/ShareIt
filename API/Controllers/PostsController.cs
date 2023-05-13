@@ -7,15 +7,13 @@ namespace API.Controllers
 {
     public sealed class PostsController : BaseApiController
     {
-        // Enpoints..
-
-        [HttpGet]   //api/posts/id
-        public async Task<ActionResult<List<Post>>> GetPosts()
+        [HttpGet]
+        public async Task<ActionResult<List<Post>>> GetPosts(CancellationToken cancellationToken)
         {
-            return await Mediator.Send(new GetAllPostsQuery());
+            return await Mediator.Send(new GetAllPostsQuery(), cancellationToken);
         }
 
-        [HttpGet("{id}")]   //api/posts/id
+        [HttpGet("{id}")]
         public async Task<ActionResult<Post>> GetPost(Guid id)
         {
             return await Mediator.Send(new GetPostByIdQuery { Id = id });

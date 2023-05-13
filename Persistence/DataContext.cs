@@ -9,5 +9,12 @@ namespace Persistence
         { }
 
         public DbSet<Post> Posts { get; set; }
+
+        public void ClearPosts()
+        {
+            foreach (var post in Posts)
+                Posts.Remove(post);
+            SaveChanges();
+        }
     }
 }

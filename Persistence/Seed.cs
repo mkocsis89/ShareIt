@@ -2,36 +2,35 @@
 
 namespace Persistence
 {
-    public class Seed
+    public sealed class Seed
     {
         public static async Task SeedDataAsync(DataContext context)
         {
             if (context.Posts.Any()) return;
 
-            var activities = new List<Post>
+            var posts = new List<Post>
             {
                 new Post
                 {
-                    Title = "Pirate ship",
+                    Title = "Street lamp",
                     Date = DateTime.UtcNow.AddMonths(-2),
-                    Description = "Cool pirate ship",
-                     
+                    SpecialParts = new List<Part>{new Part{Name = "Diamond"}}
                 },
                 new Post
                 {
-                    Title = "Wizard castle",
+                    Title = "Litter bin",
                     Date = DateTime.UtcNow.AddMonths(-1),
-                    Description = "Enchanting castle"
+                    SpecialParts = new List<Part>{new Part{Name = "Shield" } }
                 },
                 new Post
                 {
-                    Title = "Expert sport car",
+                    Title = "Cake",
                     Date = DateTime.UtcNow.AddMonths(1),
-                    Description = "Futuristic car of 2050"
+                    SpecialParts = new List<Part>{new Part{Name = "Star" } }
                 }
             };
 
-            await context.Posts.AddRangeAsync(activities);
+            await context.Posts.AddRangeAsync(posts);
             await context.SaveChangesAsync();
         }
     }
