@@ -1,5 +1,5 @@
 export interface Part {
-  id: string
-  postId: string
-  name: string
+    id: string;
+    postId: string;
+    name: string;
 }

@@ -1,16 +1,20 @@
 import { Button, Container, Menu } from 'semantic-ui-react';
 
-export default function NavBar() { 
+interface Props {
+    openForm: () => void;
+}
+
+export default function NavBar({ openForm }: Props) {
     return (
         <Menu inverted fixed='top'>
             <Container>
                 <Menu.Item header>
-                    <img src="/assets/logo.png" alt="logo" style={{marginRight: 10}} />
-                    Posts
+                    <img src='/assets/brick.png' alt='logo' style={{ marginRight: 10 }} />
+                    ShareIt
                 </Menu.Item>
-                <Menu.Item name="Posts" />
+                <Menu.Item name='Posts' />
                 <Menu.Item>
-                    <Button positive content="Create Post" />
+                    <Button onClick={openForm} positive content='Create Post' />
                 </Menu.Item>
             </Container>
         </Menu>

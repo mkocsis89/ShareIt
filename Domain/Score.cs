@@ -1,10 +1,16 @@
 ﻿namespace Domain
 {
+    public enum ScoreType
+    {
+        Creativity,
+        Uniqueness
+    }
+
     public sealed class Score
     {
         public Guid Id { get; set; }
         public Guid PostId { get; set; }
-        public int Creactivity { get; set; }
-        public int Uniqueness { get; set; }
+        // TODO UserId
+        public ScoreType Type { get; set; }
     }
 }

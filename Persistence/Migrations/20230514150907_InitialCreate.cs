@@ -6,14 +6,24 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Persistence.Migrations
 {
     /// <inheritdoc />
-    public partial class AddedPartAndScore : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropColumn(
-                name: "Parts",
-                table: "Posts");
+            migrationBuilder.CreateTable(
+                name: "Posts",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    Title = table.Column<string>(type: "TEXT", nullable: true),
+                    Date = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    Description = table.Column<string>(type: "TEXT", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Posts", x => x.Id);
+                });
 
             migrationBuilder.CreateTable(
                 name: "Part",
@@ -40,8 +50,7 @@ namespace Persistence.Migrations
                 {
                     Id = table.Column<Guid>(type: "TEXT", nullable: false),
                     PostId = table.Column<Guid>(type: "TEXT", nullable: false),
-                    Creactivity = table.Column<int>(type: "INTEGER", nullable: false),
-                    Uniqueness = table.Column<int>(type: "INTEGER", nullable: false)
+                    Type = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -74,11 +83,8 @@ namespace Persistence.Migrations
             migrationBuilder.DropTable(
                 name: "Score");
 
-            migrationBuilder.AddColumn<string>(
-                name: "Parts",
-                table: "Posts",
-                type: "TEXT",
-                nullable: true);
+            migrationBuilder.DropTable(
+                name: "Posts");
         }
     }
 }

@@ -11,8 +11,8 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230513095634_AddedPartAndScore")]
-    partial class AddedPartAndScore
+    [Migration("20230514150907_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -65,13 +65,10 @@ namespace Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("Creactivity")
-                        .HasColumnType("INTEGER");
-
                     b.Property<Guid>("PostId")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("Uniqueness")
+                    b.Property<int>("Type")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");

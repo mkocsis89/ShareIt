@@ -14,19 +14,33 @@ namespace Persistence
                 {
                     Title = "Street lamp",
                     Date = DateTime.UtcNow.AddMonths(-2),
-                    SpecialParts = new List<Part>{new Part{Name = "Diamond"}}
+                    Description = "Inspired by Margaret bridge, Budapest",
+                    SpecialParts = new List<Part>{new Part { Name = "Diamond" } },
+                    Scores = new List<Score>
+                    {
+                        new Score { Type = ScoreType.Creativity },
+                        new Score { Type = ScoreType.Uniqueness }
+                    }
                 },
                 new Post
                 {
                     Title = "Litter bin",
                     Date = DateTime.UtcNow.AddMonths(-1),
-                    SpecialParts = new List<Part>{new Part{Name = "Shield" } }
+                    Description = "Based on litter bins all across London",
+                    SpecialParts = new List<Part>{new Part {Name = "Shield" } },
+                    Scores = new List<Score>
+                    {
+                        new Score { Type = ScoreType.Creativity },
+                        new Score { Type = ScoreType.Uniqueness }
+                    }
                 },
                 new Post
                 {
                     Title = "Cake",
                     Date = DateTime.UtcNow.AddMonths(1),
-                    SpecialParts = new List<Part>{new Part{Name = "Star" } }
+                    Description = "Happy birthday to brick fans ;)",
+                    SpecialParts = new List<Part>{new Part {Name = "Star" } },
+                    Scores = new List<Score> { new Score { Type = ScoreType.Creativity } }
                 }
             };
 

@@ -62,13 +62,10 @@ namespace Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("Creactivity")
-                        .HasColumnType("INTEGER");
-
                     b.Property<Guid>("PostId")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("Uniqueness")
+                    b.Property<int>("Type")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");

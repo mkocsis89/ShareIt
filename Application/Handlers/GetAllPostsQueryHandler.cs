@@ -17,7 +17,10 @@ namespace Application.Handlers
 
         public async Task<List<Post>> Handle(GetAllPostsQuery request, CancellationToken cancellationToken)
         {
-            return await _context.Posts.ToListAsync(cancellationToken);
+            return await _context.Posts
+                .Include(post => post.SpecialParts)
+                .Include(post => post.Scores)
+                .ToListAsync(cancellationToken);
         }
     }
 }
