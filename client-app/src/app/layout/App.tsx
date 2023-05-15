@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { Container } from "semantic-ui-react";
 import NavBar from "./NavBar";
 import { Post } from "../models/Post";
 import PostDashboard from "../../features/posts/dashboard/PostDashboard";
 import { v4 as uuid } from "uuid";
+import agent from "../api/agent";
 
 function App() {
     const [posts, setPosts] = useState<Post[]>([]);
@@ -12,8 +12,14 @@ function App() {
     const [editMode, setEditMode] = useState(false);
 
     useEffect(() => {
-        axios.get<Post[]>("http://localhost:5000/api/posts/").then((response) => {
-            setPosts(response.data);
+        agent.Posts.list().then((response) => {
+            // temporary solution
+            let posts: Post[] = [];
+            response.forEach(post => {
+                post.date = post.date.split("T")[0];
+                posts.push(post);
+            })
+            setPosts(response);
         });
     }, []); // [] only fire ones
 
@@ -35,15 +41,28 @@ function App() {
     }
 
     function handleCreateOrEditPost(post: Post) {
-        post.id
-            ? setPosts([...posts.filter(p => p.id !== post.id), post])
-            : setPosts([...posts, { ...post, id: uuid() }]);
-        setEditMode(false);
-        setSelectedPost(post);
+        if (post.id) {
+            agent.Posts.update(post).then(() => {
+                setPosts([...posts.filter(p => p.id !== post.id), post])
+                setSelectedPost(post);
+                setEditMode(false);
+            })
+        }
+        else {
+            post.id = uuid();
+            post.specialParts?.forEach(part => part.postId = post.id);
+            agent.Posts.create(post).then(() => {
+                setPosts([...posts, post]);
+                setSelectedPost(post);
+                setEditMode(false);
+            });
+        }
     }
 
     function handleDeletePost(id: string) {
-        setPosts([...posts.filter(post => post.id !== id)]);
+        agent.Posts.delete(id).then(() => {
+            setPosts([...posts.filter(post => post.id !== id)]);
+        });
     }
 
     return (

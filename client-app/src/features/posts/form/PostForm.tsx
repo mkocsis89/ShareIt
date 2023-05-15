@@ -20,7 +20,7 @@ export default function PostForm({ selectedPost, closeForm, createOrEditPost }: 
     const initialState: Post = selectedPost ?? {
         id: "",
         title: "",
-        date: "",
+        date: "2023-05-15", // TODO
         description: "",
         specialParts: [],
         scores: []
@@ -54,7 +54,7 @@ export default function PostForm({ selectedPost, closeForm, createOrEditPost }: 
             <Form onSubmit={handleSubmit} autoComplete="off">
                 <Form.Input placeholder="Title" value={post.title} name="title" onChange={handleInputChange} />
                 <Form.TextArea placeholder="Description" value={post.description} name="description" onChange={handleInputChange} />
-                <Form.TextArea placeholder="Data" value={post.date} name="data" onChange={handleInputChange} />
+                <Form.Input type="date" placeholder="Date" value={post.date} name="date" onChange={handleInputChange} />
                 <Form.Dropdown
                     placeholder='Special parts'
                     fluid
