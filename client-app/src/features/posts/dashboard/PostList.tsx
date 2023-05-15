@@ -7,10 +7,11 @@ import { Score } from "../../../app/models/Score";
 interface Props {
     posts: Post[];
     selectPost: (id: string) => void;
+    deletePost: (id: string) => void;
     userId: string; // TODO
 }
 
-export default function PostList({ posts, selectPost, userId }: Props) {
+export default function PostList({ posts, selectPost, deletePost, userId }: Props) {
     const [postScores, setPostScores] = useState<{ [postId: string]: Score[] }>({});
 
     const likeCreativity = useCallback((postId: string) => {
@@ -80,6 +81,7 @@ export default function PostList({ posts, selectPost, userId }: Props) {
                                         type="uniqueness"
                                     />
                                     <Button onClick={() => selectPost(post.id)} floated="right" content="View" color="blue" />
+                                    <Button onClick={() => deletePost(post.id)} floated="right" content="Delete" color="red" />
                                 </div>
                             </Item.Extra>
                         </Item.Content>

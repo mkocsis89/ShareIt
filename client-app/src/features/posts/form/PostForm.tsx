@@ -2,13 +2,15 @@ import { Button, DropdownProps, Form, Segment } from "semantic-ui-react";
 import { Post } from "../../../app/models/Post";
 import { Part } from "../../../app/models/Part";
 import { ChangeEvent, SyntheticEvent, useState } from "react";
+import {v4 as uuid} from "uuid";
 
 interface Props {
     selectedPost: Post | undefined;
     closeForm: () => void;
+    createOrEditPost: (post: Post) => void;
 }
 
-export default function PostForm({ selectedPost, closeForm }: Props) {
+export default function PostForm({ selectedPost, closeForm, createOrEditPost }: Props) {
     const options = [
         { value: "Frog", text: "Frog" },
         { value: "Shield", text: "Shield" },
@@ -27,6 +29,7 @@ export default function PostForm({ selectedPost, closeForm }: Props) {
     const [post, setPost] = useState<Post>(initialState);
 
     function handleSubmit() {
+        createOrEditPost(post);
         console.log(post);
     }
 
@@ -39,7 +42,7 @@ export default function PostForm({ selectedPost, closeForm }: Props) {
         const { name, value } = data;
         setPost({
             ...post, [name]: (value as []).map(name => ({
-                id: "",
+                id: uuid(),
                 postId: post.id,
                 name: name
             } as Part))

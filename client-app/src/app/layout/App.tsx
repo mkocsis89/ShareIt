@@ -1,9 +1,10 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { Container } from "semantic-ui-react";
 import NavBar from "./NavBar";
 import { Post } from "../models/Post";
 import PostDashboard from "../../features/posts/dashboard/PostDashboard";
+import { v4 as uuid } from "uuid";
 
 function App() {
     const [posts, setPosts] = useState<Post[]>([]);
@@ -33,6 +34,18 @@ function App() {
         setEditMode(false);
     }
 
+    function handleCreateOrEditPost(post: Post) {
+        post.id
+            ? setPosts([...posts.filter(p => p.id !== post.id), post])
+            : setPosts([...posts, { ...post, id: uuid() }]);
+        setEditMode(false);
+        setSelectedPost(post);
+    }
+
+    function handleDeletePost(id: string) {
+        setPosts([...posts.filter(post => post.id !== id)]);
+    }
+
     return (
         <>
             <NavBar openForm={handleFormOpen} />
@@ -45,6 +58,8 @@ function App() {
                     editMode={editMode}
                     openForm={handleFormOpen}
                     closeForm={handleFormClose}
+                    createOrEditPost={handleCreateOrEditPost}
+                    deletePost={handleDeletePost}
                 />
             </Container>
         </>
