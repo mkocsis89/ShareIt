@@ -16,16 +16,16 @@ function App() {
         });
     }, []); // [] only fire ones
 
-    const handleSelectedPost = useCallback((id: string) => {
+    function handleSelectPost(id: string) {
         setSelectedPost(posts.find(post => post.id === id))
-    }, [])
+    }
 
-    const handleCancelSelectPost = useCallback(() => {
+    function handleCancelSelectPost() {
         setSelectedPost(undefined);
-    }, [])
+    }
 
     function handleFormOpen(id?: string) {
-        id ? handleSelectedPost(id) : handleCancelSelectPost();
+        id ? handleSelectPost(id) : handleCancelSelectPost();
         setEditMode(true);
     }
 
@@ -40,7 +40,7 @@ function App() {
                 <PostDashboard
                     posts={posts}
                     selectedPost={selectedPost}
-                    selectPost={handleSelectedPost}
+                    selectPost={handleSelectPost}
                     cancelSelectPost={handleCancelSelectPost}
                     editMode={editMode}
                     openForm={handleFormOpen}

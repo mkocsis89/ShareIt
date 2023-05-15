@@ -1,23 +1,57 @@
-import { Button, Form, Segment } from "semantic-ui-react";
+import { Button, DropdownProps, Form, Segment } from "semantic-ui-react";
 import { Post } from "../../../app/models/Post";
+import { Part } from "../../../app/models/Part";
+import { ChangeEvent, SyntheticEvent, useState } from "react";
 
 interface Props {
-    post: Post | undefined;
+    selectedPost: Post | undefined;
     closeForm: () => void;
 }
 
-export default function PostForm({ post, closeForm }: Props) {
+export default function PostForm({ selectedPost, closeForm }: Props) {
     const options = [
-        { value: "frog", text: "Frog" },
-        { value: "shield", text: "Shield" },
-        { value: "star", text: "Star" },
+        { value: "Frog", text: "Frog" },
+        { value: "Shield", text: "Shield" },
+        { value: "Star", text: "Star" },
     ];
+
+    const initialState: Post = selectedPost ?? {
+        id: "",
+        title: "",
+        date: "",
+        description: "",
+        specialParts: [],
+        scores: []
+    };
+
+    const [post, setPost] = useState<Post>(initialState);
+
+    function handleSubmit() {
+        console.log(post);
+    }
+
+    function handleInputChange(event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
+        const { name, value } = event.target;
+        setPost({ ...post, [name]: value });
+    }
+
+    function handleDropdownChange(event: SyntheticEvent<HTMLElement, Event>, data: DropdownProps) {
+        const { name, value } = data;
+        setPost({
+            ...post, [name]: (value as []).map(name => ({
+                id: "",
+                postId: post.id,
+                name: name
+            } as Part))
+        });
+    }
 
     return (
         <Segment clearing>
-            <Form>
-                <Form.Input placeholder='Title'></Form.Input>
-                <Form.TextArea placeholder='Description'></Form.TextArea>
+            <Form onSubmit={handleSubmit} autoComplete="off">
+                <Form.Input placeholder="Title" value={post.title} name="title" onChange={handleInputChange} />
+                <Form.TextArea placeholder="Description" value={post.description} name="description" onChange={handleInputChange} />
+                <Form.TextArea placeholder="Data" value={post.date} name="data" onChange={handleInputChange} />
                 <Form.Dropdown
                     placeholder='Special parts'
                     fluid
@@ -25,9 +59,12 @@ export default function PostForm({ post, closeForm }: Props) {
                     search
                     selection
                     options={options}
+                    value={post.specialParts.map(part => part.name)}
+                    name="specialParts"
+                    onChange={handleDropdownChange}
                 />
                 <Button floated='right' positive type='submit' content='Submit' />
-                <Button floated='right' type="button" content='Cancel' />
+                <Button onClick={closeForm} floated='right' type="button" content='Cancel' />
             </Form>
         </Segment >
     )

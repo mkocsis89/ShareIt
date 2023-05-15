@@ -21,16 +21,18 @@ export default function PostDashboard({ posts, selectedPost, selectPost, cancelS
                 <PostList posts={posts} selectPost={selectPost} userId="TODO" />
             </Grid.Column>
             <Grid.Column width="6">
-                {selectedPost &&
+                {selectedPost && !editMode &&
                     <PostDetails
                         post={selectedPost}
                         cancelSelectPost={cancelSelectPost}
                         openForm={openForm}
                     />}
-                <PostForm
-                    post={selectedPost}
-                    closeForm={closeForm}
-                />
+                {editMode &&
+                    <PostForm
+                        selectedPost={selectedPost}
+                        closeForm={closeForm}
+                    />
+                }
             </Grid.Column>
         </Grid>
     );
