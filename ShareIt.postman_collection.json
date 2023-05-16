@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "fd528346-3a6c-4bdb-af43-09cbee75956a",
+		"_postman_id": "c6281a7e-8d2b-491f-a829-0cc28d8d2a5f",
 		"name": "ShareIt",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -338,6 +338,33 @@
 				}
 			},
 			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "url",
+			"value": "http://localhost:5000",
+			"type": "default"
 		}
 	]
 }
