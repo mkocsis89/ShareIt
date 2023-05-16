@@ -1,0 +1,343 @@
+{
+	"info": {
+		"_postman_id": "fd528346-3a6c-4bdb-af43-09cbee75956a",
+		"name": "ShareIt",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get Posts",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/api/posts",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"posts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Edit a Post same fields",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var moment = require(\"moment\");\r",
+							"\r",
+							"pm.environment.set('activityDate', moment().add(14, 'days').toISOString());"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "// send a valid edit first\n{\n\t\"title\": \"Fancy looking car\",\n\t\"date\": \"2023-05-30T09:23:22.803\", // swap this with its own date\n    \"description\": \"Wroom\",\n\t\"specialParts\": [ { \"name\": \"Wheel\" } ]\n}"
+				},
+				"url": {
+					"raw": "{{url}}/api/posts/71acdbcb-5589-4f8e-80ac-f2860c598c38",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"posts",
+						"71acdbcb-5589-4f8e-80ac-f2860c598c38"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Post",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/api/posts/69932641-429f-47d6-94ef-0112e5d95abd",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"posts",
+						"69932641-429f-47d6-94ef-0112e5d95abd"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Post",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var moment = require(\"moment\"); //JS library that deals with date\r",
+							"pm.environment.set('activityDate', moment().add(14, 'days').toISOString());"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"id\": \"{{$guid}}\",\n\t\"title\": \"Test Create Post\",\n\t\"date\": \"{{activityDate}}\",\n    \"description\": \"Description of the test event\",\n\t\"specialParts\":  [ { \"name\": \"Frog\" }, { \"name\": \"Start\" }, { \"name\": \"Shield\" } ]\n}"
+				},
+				"url": {
+					"raw": "{{url}}/api/posts/",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"posts",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Edit Post",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var moment = require(\"moment\");\r",
+							"\r",
+							"pm.environment.set('activityDate', moment().add(14, 'days').toISOString());"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"title\": \"Fancy looking car\",\n\t\"date\": \"{{activityDate}}\",\n    \"description\": \"Wroom\",\n\t\"specialParts\": [ { \"name\": \"Wheel\" } ]\n}"
+				},
+				"url": {
+					"raw": "{{url}}/api/posts/6000294c-9c18-4023-a337-59e20f805511",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"posts",
+						"6000294c-9c18-4023-a337-59e20f805511"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Post",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{url}}/api/posts/4b839a35-a394-4c69-b712-e8e1f996492e",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"posts",
+						"4b839a35-a394-4c69-b712-e8e1f996492e"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Empty Post",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{}"
+				},
+				"url": {
+					"raw": "{{url}}/api/posts",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"posts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Edit Post missing fields",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var moment = require(\"moment\");\r",
+							"\r",
+							"pm.environment.set('activityDate', moment().add(14, 'days').toISOString());"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"title\": \"Fancy looking car\",\n\t\"date\": \"{{activityDate}}\",\n    //\"description\": \"Wroom\",   // required field\n\t\"specialParts\": [ { \"name\": \"Wheel\" } ]\n}"
+				},
+				"url": {
+					"raw": "{{url}}/api/posts/e790dde4-f422-4a33-8245-1b5c36cba083",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"posts",
+						"e790dde4-f422-4a33-8245-1b5c36cba083"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get non existant Post",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{url}}/api/posts/20c61c0e-95a5-4c44-a50b-3adb35f1f5bf",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"posts",
+						"20c61c0e-95a5-4c44-a50b-3adb35f1f5bf"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete non existent Post",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{url}}/api/posts/d51e33de-105b-4549-96d9-8ba2c7b05a30",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"posts",
+						"d51e33de-105b-4549-96d9-8ba2c7b05a30"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
