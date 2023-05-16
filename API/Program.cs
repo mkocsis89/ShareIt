@@ -1,4 +1,5 @@
 using API.Extensions;
+using API.Middleware;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
 
@@ -8,13 +9,16 @@ builder.Services.AddControllers();
 builder.Services.AddApplicationServices(builder.Configuration);
 var app = builder.Build();
 
-#region Configuration of HTTP request pipeline/middleware
+// Configuration of HTTP request pipeline/middleware
+
+app.UseMiddleware<ExceptionMiddleware>();
 
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
 app.UseCors("CorsPolicy");
 app.UseAuthorization();
 app.MapControllers();
@@ -35,7 +39,5 @@ catch (Exception ex)
     var logger = services.GetRequiredService<ILogger<Program>>();
     logger.LogError(ex, "An error occured during migration");
 }
-
-#endregion
 
 app.Run();

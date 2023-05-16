@@ -6,6 +6,7 @@ namespace Persistence
     {
         public static async Task SeedDataAsync(DataContext context)
         {
+            context.ClearPosts();
             if (context.Posts.Any()) return;
 
             var posts = new List<Post>

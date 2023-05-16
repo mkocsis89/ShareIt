@@ -1,10 +1,11 @@
 ﻿using Application.Commands;
+using Application.Core;
 using MediatR;
 using Persistence;
 
 namespace Application.Handlers
 {
-    public sealed class CreatePostCommandHandler : IRequestHandler<CreatePostCommand>
+    public sealed class CreatePostCommandHandler : IRequestHandler<CreatePostCommand, Result<Unit>>
     {
         private readonly DataContext _context;
 
@@ -13,12 +14,15 @@ namespace Application.Handlers
             _context = context;
         }
 
-        public async Task Handle(CreatePostCommand request, CancellationToken cancellationToken)
+        public async Task<Result<Unit>> Handle(CreatePostCommand request, CancellationToken cancellationToken)
         {
-            // Adding the Post into memory, we are not touching SQL
-            // (tracking the fact that we are adding an entity into memory)
             _context.Posts.Add(request.Post);
-            await _context.SaveChangesAsync();
+            var isSuccess = await _context.SaveChangesAsync(cancellationToken) > 0;
+
+            if (isSuccess)
+                return Result<Unit>.Success(Unit.Value);
+         
+            return Result<Unit>.Failure("Failed to create post");
         }
     }
 }

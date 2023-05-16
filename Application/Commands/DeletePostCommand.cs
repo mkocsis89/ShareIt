@@ -1,8 +1,9 @@
-﻿using MediatR;
+﻿using Application.Core;
+using MediatR;
 
 namespace Application.Commands
 {
-    public sealed class DeletePostCommand : IRequest
+    public sealed class DeletePostCommand : IRequest<Result<Unit>>
     {
         public Guid Id { get; set; }
     }

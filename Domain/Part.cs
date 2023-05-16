@@ -1,5 +1,6 @@
 ﻿namespace Domain
 {
+    // TODO: shared DbSet
     public sealed class Part
     {
         public Guid Id { get; set; }
