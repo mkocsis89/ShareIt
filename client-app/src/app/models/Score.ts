@@ -1,5 +1,5 @@
 export interface Score {
-    id: string;
+    id?: string;
     postId: string;
     userId: string;
     type: number;

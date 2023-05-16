@@ -4,7 +4,7 @@ using System.Text.Json;
 
 namespace API.Middleware
 {
-    public class ExceptionMiddleware
+    public sealed class ExceptionMiddleware
     {
         public RequestDelegate _next;
         public ILogger<ExceptionMiddleware> _logger;

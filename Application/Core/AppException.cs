@@ -1,6 +1,6 @@
 ﻿namespace Application.Core
 {
-    public class AppException : Exception
+    public class AppException
     {
         public AppException(int statusCode, string message, string details = null)
         {

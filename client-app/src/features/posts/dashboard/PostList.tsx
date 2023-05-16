@@ -14,36 +14,16 @@ interface Props {
 export default function PostList({ posts, selectPost, deletePost, userId }: Props) {
     const [postScores, setPostScores] = useState<{ [postId: string]: Score[] }>({});
 
-    const likeCreativity = useCallback((postId: string) => {
-        const post = posts.find((post) => post.id === postId);
+    const like = useCallback((postId: string, scoreType: number) => {
+        const post = posts.find(post => post.id === postId);
         if (post /*&& !postScores[postId]?.some((score) => score.userId === props.userId*/) {
             const updatedScores = [
                 ...(postScores[postId] || []),
                 {
-                    id: "",
                     postId: postId,
                     userId: userId,
-                    type: 0,
-                },
-            ];
-            setPostScores((prevScores) => ({
-                ...prevScores,
-                [postId]: updatedScores,
-            }));
-        }
-    }, [userId, posts, postScores]);
-
-    const likeUniqueness = useCallback((postId: string) => {
-        const post = posts.find((post) => post.id === postId);
-        if (post /*&& !postScores[postId]?.some((score) => score.userId === props.userId*/) {
-            const updatedScores = [
-                ...(postScores[postId] || []),
-                {
-                    id: "",
-                    postId: postId,
-                    userId: userId,
-                    type: 1,
-                },
+                    type: scoreType,
+                } as Score,
             ];
             setPostScores((prevScores) => ({
                 ...prevScores,
@@ -55,7 +35,7 @@ export default function PostList({ posts, selectPost, deletePost, userId }: Prop
     return (
         <Segment>
             <Item.Group divided>
-                {posts.map((post) => (
+                {posts.map(post => (
                     <Item key={post.id}>
                         <Item.Content>
                             <Item.Header as="a">{post.title}</Item.Header>
@@ -71,13 +51,13 @@ export default function PostList({ posts, selectPost, deletePost, userId }: Prop
                                     <ScoreButton
                                         score={postScores[post.id]?.filter((score) => score.type === 0)?.length || 0}
                                         postId={post.id}
-                                        like={likeCreativity}
+                                        like={() => like(post.id, 0)}
                                         type="creativity"
                                     />
                                     <ScoreButton
                                         score={postScores[post.id]?.filter((score) => score.type === 1)?.length || 0}
                                         postId={post.id}
-                                        like={likeUniqueness}
+                                        like={() => like(post.id, 1)}
                                         type="uniqueness"
                                     />
                                     <Button onClick={() => selectPost(post.id)} floated="right" content="View" color="blue" />

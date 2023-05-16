@@ -4,10 +4,12 @@ namespace Persistence
 {
     public sealed class Seed
     {
-        public static async Task SeedDataAsync(DataContext context)
+        public static async Task SeedDataAsync(DataContext context, bool isDevelopment)
         {
-            context.ClearPosts();
-            if (context.Posts.Any()) return;
+            if (isDevelopment)
+                context.ClearPosts();
+            else if (context.Posts.Any())
+                return;
 
             var posts = new List<Post>
             {
