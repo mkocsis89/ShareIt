@@ -9,7 +9,6 @@ namespace Application.Validators
         {
             RuleFor(post => post.Title).NotEmpty();
             RuleFor(post => post.Description).NotEmpty();
-            RuleFor(post => post.SpecialParts).NotEmpty();
         }
     }
 }

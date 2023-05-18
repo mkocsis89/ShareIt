@@ -1,10 +1,11 @@
-﻿namespace Domain
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Domain
 {
-    // TODO: shared DbSet
     public sealed class Part
     {
-        public Guid Id { get; set; }
-        public Guid PostId { get; set; }
+        [Key]
         public string Name { get; set; }
+        public Guid PostId { get; set; }
     }
 }

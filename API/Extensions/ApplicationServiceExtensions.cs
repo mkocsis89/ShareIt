@@ -25,7 +25,6 @@ namespace API.Extensions
             });
 
             services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining(typeof(GetPostsQueryHandler)));
-            services.AddAutoMapper(typeof(MappingProfiles).Assembly);
             services.AddFluentValidationAutoValidation();
             services.AddValidatorsFromAssemblyContaining<GetPostsQueryHandler>();
 

@@ -19,7 +19,7 @@ namespace Application.Handlers
 
         public async Task<Result<Unit>> Handle(EditPostCommand request, CancellationToken cancellationToken)
         {
-            var post = await _context.LoadPostAsync(request.Post.Id, cancellationToken);
+            var post = await _context.Posts.FindAsync(request.Post.Id, cancellationToken);
 
             if (post == null)
                 return null;

@@ -2,6 +2,7 @@
 using Application.Queries;
 using Domain;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Persistence;
 
 namespace Application.Handlers
@@ -17,7 +18,7 @@ namespace Application.Handlers
 
         public async Task<Result<List<Post>>> Handle(GetPostsQuery request, CancellationToken cancellationToken)
         {
-            var posts = await _context.LoadPostsAsync(cancellationToken);
+            var posts = await _context.Posts.ToListAsync(cancellationToken);
             return Result<List<Post>>.Success(posts);
         }
     }

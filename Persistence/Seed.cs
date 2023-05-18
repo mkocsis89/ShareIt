@@ -11,6 +11,15 @@ namespace Persistence
             else if (context.Posts.Any())
                 return;
 
+            var specialParts = new List<Part>
+            {
+                { new Part { Name = "Diamond" } },
+                { new Part { Name = "Shield" } },
+                { new Part { Name = "Star" } }
+            };
+
+            await context.SpecialParts.AddRangeAsync(specialParts);
+
             var posts = new List<Post>
             {
                 new Post
@@ -18,7 +27,6 @@ namespace Persistence
                     Title = "Street lamp",
                     Date = DateTime.UtcNow.AddMonths(-2),
                     Description = "Inspired by Margaret bridge, Budapest",
-                    SpecialParts = new List<Part>{new Part { Name = "Diamond" } },
                     Scores = new List<Score>
                     {
                         new Score { Type = ScoreType.Creativity },
@@ -30,7 +38,6 @@ namespace Persistence
                     Title = "Litter bin",
                     Date = DateTime.UtcNow.AddMonths(-1),
                     Description = "Based on litter bins all across London",
-                    SpecialParts = new List<Part>{new Part {Name = "Shield" } },
                     Scores = new List<Score>
                     {
                         new Score { Type = ScoreType.Creativity },
@@ -42,7 +49,6 @@ namespace Persistence
                     Title = "Cake",
                     Date = DateTime.UtcNow.AddMonths(1),
                     Description = "Happy birthday to brick fans ;)",
-                    SpecialParts = new List<Part>{new Part {Name = "Star" } },
                     Scores = new List<Score> { new Score { Type = ScoreType.Creativity } }
                 }
             };
