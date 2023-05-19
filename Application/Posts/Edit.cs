@@ -45,13 +45,9 @@ namespace Application.Posts
                 return Result<Unit>.Success(Unit.Value);
             }
 
-            // TODO custom automapper
             private void Map(Post post, PostDto dto)
             {
-                post.Title = dto.Title;
-                post.Date = dto.Date;
-                post.Description = dto.Description;
-
+                _mapper.Map(dto, post);
                 var parts = new List<Part>();
 
                 foreach (var serialNumber in dto.SpecialParts.Select(p => p.SerialNumber).ToList())

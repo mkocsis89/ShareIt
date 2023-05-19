@@ -1,5 +1,6 @@
 ﻿using Application.Core;
 using Application.Posts.Dtos;
+using AutoMapper;
 using Domain;
 using MediatR;
 using Microsoft.Extensions.Logging;
@@ -17,11 +18,13 @@ namespace Application.Posts
         public sealed class Handler : IRequestHandler<Command, Result<Unit>>
         {
             private readonly DataContext _context;
+            private readonly IMapper _mapper;
             private readonly ILogger<Handler> _logger;
 
-            public Handler(DataContext context, ILogger<Create.Handler> logger)
+            public Handler(DataContext context, IMapper mapper, ILogger<Handler> logger)
             {
                 _context = context;
+                _mapper = mapper;
                 _logger = logger;
             }
 
@@ -38,16 +41,9 @@ namespace Application.Posts
                 return Result<Unit>.Failure("Failed to create post");
             }
 
-            // TODO custom automapper
             private Post Map(PostDto dto)
             {
-                var post = new Post
-                {
-                    Title = dto.Title,
-                    Date = dto.Date,
-                    Description = dto.Description
-                };
-
+                var post = _mapper.Map<Post>(dto);
                 var parts = new List<Part>();
 
                 foreach (var serialNumber in dto.SpecialParts.Select(p => p.SerialNumber).ToList())

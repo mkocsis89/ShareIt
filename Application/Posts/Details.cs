@@ -1,6 +1,6 @@
 ﻿using Application.Core;
 using Application.Posts.Dtos;
-using Domain;
+using AutoMapper;
 using MediatR;
 using Persistence;
 
@@ -16,29 +16,19 @@ namespace Application.Posts
         public sealed class Handler : IRequestHandler<Query, Result<PostDto>>
         {
             private readonly DataContext _context;
+            private readonly IMapper _mapper;
 
-            public Handler(DataContext context)
+            public Handler(DataContext context, IMapper mapper)
             {
                 _context = context;
+                _mapper = mapper;
             }
 
             public async Task<Result<PostDto>> Handle(Query request, CancellationToken cancellationToken)
             {
                 var post = await _context.Posts.FindAsync(request.Id, cancellationToken);
-                return Result<PostDto>.Success(Map(post));
-            }
-
-            // TODO automapper
-            private PostDto Map(Post post)
-            {
-                return new PostDto
-                {
-                    Title = post.Title,
-                    Date = post.Date,
-                    Description = post.Description,
-                    SpecialParts = post.SpecialParts.Select(part =>
-                        new PartDto { SerialNumber = part.SerialNumber }).ToArray()
-                };
+                var postDto = _mapper.Map<PostDto>(post);
+                return Result<PostDto>.Success(postDto);
             }
         }
     }
