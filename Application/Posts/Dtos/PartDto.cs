@@ -2,6 +2,6 @@
 {
     public sealed class PartDto
     {
-        public Guid SerialNumber { get; set; }
+        public uint SerialNumber { get; set; }
     }
 }
