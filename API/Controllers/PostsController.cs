@@ -1,5 +1,5 @@
-﻿using Application.Commands;
-using Application.Queries;
+﻿using API.Dtos;
+using Application.Posts;
 using Domain;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,34 +8,34 @@ namespace API.Controllers
     public sealed class PostsController : BaseApiController
     {
         [HttpGet]
-        public async Task<ActionResult<List<Post>>> GetPosts(CancellationToken cancellationToken)
+        public async Task<ActionResult<List<PostDto>>> GetPosts(CancellationToken cancellationToken)
         {
-            return HandleResult(await Mediator.Send(new GetPostsQuery(), cancellationToken));
+            return HandleResult(await Mediator.Send(new List.Query(), cancellationToken));
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetPost(Guid id)
         {
-            return HandleResult(await Mediator.Send(new GetPostQuery { Id = id }));
+            return HandleResult(await Mediator.Send(new Details.Query { Id = id }));
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreatePost([FromBody] Post post)
+        public async Task<IActionResult> CreatePost([FromBody] PostDto post)
         {
-            return HandleResult(await Mediator.Send(new CreatePostCommand { Post = post }));
+            return HandleResult(await Mediator.Send(new Create.Command { Post = post }));
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> EditPost(Guid id, Post post)
+        public async Task<IActionResult> EditPost(Guid id, PostDto post)
         {
             post.Id = id;
-            return HandleResult(await Mediator.Send(new EditPostCommand { Post = post }));
+            return HandleResult(await Mediator.Send(new Edit.Command { Post = post }));
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePost(Guid id)
         {
-            return HandleResult(await Mediator.Send(new DeletePostCommand { Id = id }));
+            return HandleResult(await Mediator.Send(new Delete.Command { Id = id }));
         }
     }
 }
