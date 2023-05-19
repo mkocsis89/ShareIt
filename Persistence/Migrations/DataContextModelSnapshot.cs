@@ -19,13 +19,22 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Part", b =>
                 {
+                    b.Property<uint>("SerialNumber")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Color")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("Name")
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid>("PostId")
+                    b.Property<Guid?>("PostId")
                         .HasColumnType("TEXT");
 
-                    b.HasKey("Name");
+                    b.HasKey("SerialNumber");
+
+                    b.HasIndex("PostId");
 
                     b.ToTable("SpecialParts");
                 });
@@ -69,6 +78,13 @@ namespace Persistence.Migrations
                     b.ToTable("Score");
                 });
 
+            modelBuilder.Entity("Domain.Part", b =>
+                {
+                    b.HasOne("Domain.Post", null)
+                        .WithMany("SpecialParts")
+                        .HasForeignKey("PostId");
+                });
+
             modelBuilder.Entity("Domain.Score", b =>
                 {
                     b.HasOne("Domain.Post", null)
@@ -81,6 +97,8 @@ namespace Persistence.Migrations
             modelBuilder.Entity("Domain.Post", b =>
                 {
                     b.Navigation("Scores");
+
+                    b.Navigation("SpecialParts");
                 });
 #pragma warning restore 612, 618
         }

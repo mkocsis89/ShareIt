@@ -26,25 +26,6 @@ namespace Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Part",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
-                    PostId = table.Column<Guid>(type: "TEXT", nullable: false),
-                    Name = table.Column<string>(type: "TEXT", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Part", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Part_Posts_PostId",
-                        column: x => x.PostId,
-                        principalTable: "Posts",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Score",
                 columns: table => new
                 {
@@ -63,14 +44,34 @@ namespace Persistence.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateIndex(
-                name: "IX_Part_PostId",
-                table: "Part",
-                column: "PostId");
+            migrationBuilder.CreateTable(
+                name: "SpecialParts",
+                columns: table => new
+                {
+                    SerialNumber = table.Column<uint>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Name = table.Column<string>(type: "TEXT", nullable: true),
+                    Color = table.Column<string>(type: "TEXT", nullable: true),
+                    PostId = table.Column<Guid>(type: "TEXT", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SpecialParts", x => x.SerialNumber);
+                    table.ForeignKey(
+                        name: "FK_SpecialParts_Posts_PostId",
+                        column: x => x.PostId,
+                        principalTable: "Posts",
+                        principalColumn: "Id");
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Score_PostId",
                 table: "Score",
+                column: "PostId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SpecialParts_PostId",
+                table: "SpecialParts",
                 column: "PostId");
         }
 
@@ -78,10 +79,10 @@ namespace Persistence.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Part");
+                name: "Score");
 
             migrationBuilder.DropTable(
-                name: "Score");
+                name: "SpecialParts");
 
             migrationBuilder.DropTable(
                 name: "Posts");
