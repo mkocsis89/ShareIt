@@ -1,4 +1,4 @@
-﻿namespace Application.Posts.Dtos
+﻿namespace Application.Dtos
 {
     public sealed class PartDto
     {

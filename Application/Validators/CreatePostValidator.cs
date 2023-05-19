@@ -1,11 +1,11 @@
-﻿using Application.Posts.Dtos;
+﻿using Application.Dtos;
 using FluentValidation;
 
 namespace Application.Validators
 {
-    public sealed class PostValidator : AbstractValidator<PostDto>
+    public sealed class CreatePostValidator : AbstractValidator<CreatePostDto>
     {
-        public PostValidator()
+        public CreatePostValidator()
         {
             RuleFor(post => post.Title).NotEmpty();
             RuleFor(post => post.Description).NotEmpty();

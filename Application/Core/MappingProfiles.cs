@@ -1,4 +1,4 @@
-﻿using Application.Posts.Dtos;
+﻿using Application.Dtos;
 using AutoMapper;
 using Domain;
 
@@ -8,8 +8,13 @@ namespace Application.Core
     {
         public MappingProfiles()
         {
-            CreateMap<PostDto, Post>();
-         
+            CreateMap<CreatePostDto, Post>()
+                .ForMember(dest => dest.SpecialParts, opt => opt.Ignore());
+
+            CreateMap<EditPostDto, Post>()
+                .ForMember(dest => dest.Id, opt => opt.Ignore())
+                .ForMember(dest => dest.SpecialParts, opt => opt.Ignore());
+
             CreateMap<Post, PostDto>()
                 .ForMember(dest => dest.SpecialParts, opt =>
                 {

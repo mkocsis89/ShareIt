@@ -1,5 +1,5 @@
 ﻿using Application.Core;
-using Application.Posts.Dtos;
+using Application.Dtos;
 using AutoMapper;
 using MediatR;
 using Persistence;
@@ -13,12 +13,12 @@ namespace Application.Posts
             public Guid Id { get; set; }
         }
 
-        public sealed class Handler : IRequestHandler<Query, Result<PostDto>>
+        public sealed class QueryHandler : IRequestHandler<Query, Result<PostDto>>
         {
             private readonly DataContext _context;
             private readonly IMapper _mapper;
 
-            public Handler(DataContext context, IMapper mapper)
+            public QueryHandler(DataContext context, IMapper mapper)
             {
                 _context = context;
                 _mapper = mapper;

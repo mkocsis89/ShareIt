@@ -1,5 +1,5 @@
 ﻿using Application.Core;
-using Application.Posts.Dtos;
+using Application.Dtos;
 using AutoMapper;
 using Domain;
 using MediatR;
@@ -12,7 +12,7 @@ namespace Application.Posts
     {
         public sealed class Command : IRequest<Result<Unit>>
         {
-            public PostDto Post { get; set; }
+            public CreatePostDto Post { get; set; }
         }
 
         public sealed class Handler : IRequestHandler<Command, Result<Unit>>
@@ -41,7 +41,7 @@ namespace Application.Posts
                 return Result<Unit>.Failure("Failed to create post");
             }
 
-            private Post Map(PostDto dto)
+            private Post Map(CreatePostDto dto)
             {
                 var post = _mapper.Map<Post>(dto);
                 var parts = new List<Part>();

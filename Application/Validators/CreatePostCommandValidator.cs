@@ -8,7 +8,7 @@ namespace Application.Commands
     {
         public CreatePostCommandValidator()
         {
-            RuleFor(command => command.Post).SetValidator(new PostValidator());
+            RuleFor(command => command.Post).SetValidator(new CreatePostValidator());
         }
     }
 }

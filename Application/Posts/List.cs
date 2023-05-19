@@ -1,5 +1,5 @@
 ﻿using Application.Core;
-using Application.Posts.Dtos;
+using Application.Dtos;
 using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
