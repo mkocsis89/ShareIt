@@ -1,6 +1,5 @@
-﻿using API.Dtos;
-using Application.Posts;
-using Domain;
+﻿using Application.Posts;
+using Application.Posts.Dtos;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers

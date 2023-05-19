@@ -25,8 +25,22 @@ namespace Application.Posts
             public async Task<Result<List<PostDto>>> Handle(Query request, CancellationToken cancellationToken)
             {
                 var posts = await _context.Posts.ToListAsync(cancellationToken);
-                return Result<List<Post>>.Success(posts);
+                return Result<List<PostDto>>.Success(posts.Select(Map).ToList());
             }
+
+            // TODO automapper
+            private PostDto Map(Post post)
+            {
+                return new PostDto
+                {
+                    Title = post.Title,
+                    Date = post.Date,
+                    Description = post.Description,
+                    SpecialParts = post.SpecialParts.Select(part =>
+                        new PartDto { SerialNumber = part.SerialNumber }).ToArray()
+                };
+            }
+
         }
     }
 }

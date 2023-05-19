@@ -25,7 +25,20 @@ namespace Application.Posts
             public async Task<Result<PostDto>> Handle(Query request, CancellationToken cancellationToken)
             {
                 var post = await _context.Posts.FindAsync(request.Id, cancellationToken);
-                return Result<PostDto>.Success(post);
+                return Result<PostDto>.Success(Map(post));
+            }
+
+            // TODO automapper
+            private PostDto Map(Post post)
+            {
+                return new PostDto
+                {
+                    Title = post.Title,
+                    Date = post.Date,
+                    Description = post.Description,
+                    SpecialParts = post.SpecialParts.Select(part =>
+                        new PartDto { SerialNumber = part.SerialNumber }).ToArray()
+                };
             }
         }
     }

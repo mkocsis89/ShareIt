@@ -1,7 +1,9 @@
 ﻿using Application.Core;
 using Application.Posts.Dtos;
 using AutoMapper;
+using Domain;
 using MediatR;
+using Microsoft.Extensions.Logging;
 using Persistence;
 
 namespace Application.Posts
@@ -17,11 +19,13 @@ namespace Application.Posts
         {
             private readonly DataContext _context;
             private readonly IMapper _mapper;
+            private readonly ILogger<Handler> _logger;
 
-            public Handler(DataContext context, IMapper mapper)
+            public Handler(DataContext context, IMapper mapper, ILogger<Edit.Handler> logger)
             {
                 _context = context;
                 _mapper = mapper;
+                _logger = logger;
             }
 
             public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
@@ -31,7 +35,7 @@ namespace Application.Posts
                 if (post == null)
                     return null;
 
-                _mapper.Map(request.Post, post);
+                Map(post, request.Post);
 
                 var isSuccess = await _context.SaveChangesAsync(cancellationToken) > 0;
 
@@ -39,6 +43,31 @@ namespace Application.Posts
                     return Result<Unit>.Failure("Failed to update post");
 
                 return Result<Unit>.Success(Unit.Value);
+            }
+
+            // TODO custom automapper
+            private void Map(Post post, PostDto dto)
+            {
+                post.Title = dto.Title;
+                post.Date = dto.Date;
+                post.Description = dto.Description;
+
+                var parts = new List<Part>();
+
+                foreach (var serialNumber in dto.SpecialParts.Select(p => p.SerialNumber).ToList())
+                {
+                    var part = _context.SpecialParts.FirstOrDefault(p => p.SerialNumber == serialNumber);
+
+                    if (part == null)
+                    {
+                        _logger.LogError($"Part with serial number '{serialNumber}' does not exsist");
+                        continue;
+                    }
+
+                    parts.Add(part);
+                }
+
+                post.SpecialParts = parts;
             }
         }
     }

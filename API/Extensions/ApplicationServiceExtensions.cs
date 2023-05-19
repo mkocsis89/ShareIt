@@ -1,5 +1,5 @@
 ﻿using Application.Core;
-using Application.Handlers;
+using Application.Posts;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
@@ -24,10 +24,10 @@ namespace API.Extensions
                 });
             });
 
-            services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining(typeof(GetPostsQueryHandler)));
+            services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining(typeof(Create.Command)));
             services.AddAutoMapper(typeof(MappingProfiles).Assembly);
             services.AddFluentValidationAutoValidation();
-            services.AddValidatorsFromAssemblyContaining<GetPostsQueryHandler>();
+            services.AddValidatorsFromAssemblyContaining<Create.Command>();
 
             return services;
         }
