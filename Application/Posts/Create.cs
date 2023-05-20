@@ -44,22 +44,23 @@ namespace Application.Posts
             private Post Map(CreatePostDto dto)
             {
                 var post = _mapper.Map<Post>(dto);
-                var parts = new List<Part>();
+                var partsToAdd = new List<PostPart>();
 
-                foreach (var serialNumber in dto.SpecialParts.Select(p => p.SerialNumber).ToList())
-                { 
-                    var part = _context.SpecialParts.FirstOrDefault(p => p.SerialNumber == serialNumber);
+                foreach (var designId in dto.SpecialParts.Select(p => p.DesignId).ToList())
+                {
+                    var part = _context.SpecialParts.FirstOrDefault(p => p.DesignId == designId);
 
                     if (part == null)
                     {
-                        _logger.LogError($"Part with serial number '{serialNumber}' does not exsist");
+                        _logger.LogError($"Part with design ID '{designId}' does not exsist");
                         continue;
                     }
 
-                    parts.Add(part);
+                    partsToAdd.Add(new PostPart { PostId = post.Id, PartId = part.DesignId });
                 }
 
-                post.SpecialParts = parts;
+                _context.PostParts.AddRange(partsToAdd);
+                _context.SaveChanges();
                 return post;
             }
         }

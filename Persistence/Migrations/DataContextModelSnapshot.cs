@@ -19,7 +19,7 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Part", b =>
                 {
-                    b.Property<uint>("SerialNumber")
+                    b.Property<uint>("DesignId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
@@ -29,12 +29,7 @@ namespace Persistence.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid?>("PostId")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("SerialNumber");
-
-                    b.HasIndex("PostId");
+                    b.HasKey("DesignId");
 
                     b.ToTable("SpecialParts");
                 });
@@ -59,6 +54,21 @@ namespace Persistence.Migrations
                     b.ToTable("Posts");
                 });
 
+            modelBuilder.Entity("Domain.PostPart", b =>
+                {
+                    b.Property<Guid>("PostId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<uint>("PartId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("PostId", "PartId");
+
+                    b.HasIndex("PartId");
+
+                    b.ToTable("PostParts");
+                });
+
             modelBuilder.Entity("Domain.Score", b =>
                 {
                     b.Property<Guid>("Id")
@@ -78,11 +88,23 @@ namespace Persistence.Migrations
                     b.ToTable("Score");
                 });
 
-            modelBuilder.Entity("Domain.Part", b =>
+            modelBuilder.Entity("Domain.PostPart", b =>
                 {
-                    b.HasOne("Domain.Post", null)
-                        .WithMany("SpecialParts")
-                        .HasForeignKey("PostId");
+                    b.HasOne("Domain.Part", "Part")
+                        .WithMany()
+                        .HasForeignKey("PartId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Post", "Post")
+                        .WithMany()
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Part");
+
+                    b.Navigation("Post");
                 });
 
             modelBuilder.Entity("Domain.Score", b =>
@@ -97,8 +119,6 @@ namespace Persistence.Migrations
             modelBuilder.Entity("Domain.Post", b =>
                 {
                     b.Navigation("Scores");
-
-                    b.Navigation("SpecialParts");
                 });
 #pragma warning restore 612, 618
         }

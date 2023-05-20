@@ -48,22 +48,25 @@ namespace Application.Posts
             private void Map(Post post, EditPostDto dto)
             {
                 _mapper.Map(dto, post);
-                var parts = new List<Part>();
+                var partsToAdd = new List<PostPart>();
 
-                foreach (var serialNumber in dto.SpecialParts.Select(p => p.SerialNumber).ToList())
+                foreach (var designId in dto.SpecialParts.Select(p => p.DesignId).ToList())
                 {
-                    var part = _context.SpecialParts.FirstOrDefault(p => p.SerialNumber == serialNumber);
+                    var part = _context.SpecialParts.FirstOrDefault(p => p.DesignId == designId);
 
                     if (part == null)
                     {
-                        _logger.LogError($"Part with serial number '{serialNumber}' does not exsist");
+                        _logger.LogError($"Part with design ID '{designId}' does not exsist");
                         continue;
                     }
 
-                    parts.Add(part);
+                    partsToAdd.Add(new PostPart { PostId = post.Id, PartId = part.DesignId });
                 }
 
-                post.SpecialParts = parts;
+                var partsToDelete = _context.PostParts.Where(pp => pp.PostId == post.Id).ToList();
+                _context.PostParts.RemoveRange(partsToDelete);
+                _context.PostParts.AddRange(partsToAdd);
+                _context.SaveChanges();
             }
         }
     }

@@ -7,17 +7,16 @@ namespace Persistence
         public static async Task SeedDataAsync(DataContext context, bool isDevelopment)
         {
             if (isDevelopment)
-                context.ClearPosts();
+                context.Clear();
             else if (context.Posts.Any())
                 return;
 
             var specialParts = new List<Part>
             {
-                { new Part { SerialNumber = 3001, Name = "Diamond", Color = "Blue" } },
-                { new Part { SerialNumber = 3002, Name = "Diamond", Color = "Red" } },
-                { new Part { SerialNumber = 4003, Name = "Shield", Color = "Black" } },
-                { new Part { SerialNumber = 4004, Name = "Shield", Color = "Brown" } },
-                { new Part { SerialNumber = 5001, Name = "Star", Color = "Blue"} }
+                { new Part { DesignId = 3001, Name = "Diamond", Color = "White" } },
+                { new Part { DesignId = 4003, Name = "Shield", Color = "Black" } },
+                { new Part { DesignId = 5008, Name = "Star", Color = "Red"} },
+                { new Part { DesignId = 5014, Name = "Star", Color = "Blue"} }
             };
 
             await context.SpecialParts.AddRangeAsync(specialParts);
@@ -30,10 +29,6 @@ namespace Persistence
                     Title = "Street lamp",
                     Date = DateTime.UtcNow.AddMonths(-2),
                     Description = "Inspired by Margaret bridge, Budapest",
-                    SpecialParts = new List<Part>
-                    {
-                        specialParts[0]
-                    },
                     Scores = new List<Score>
                     {
                         new Score { Type = ScoreType.Creativity },
@@ -45,10 +40,6 @@ namespace Persistence
                     Title = "Litter bin",
                     Date = DateTime.UtcNow.AddMonths(-1),
                     Description = "Based on litter bins all across London",
-                    SpecialParts = new List<Part>
-                    {
-                        specialParts[2]
-                    },
                     Scores = new List<Score>
                     {
                         new Score { Type = ScoreType.Creativity },
@@ -60,15 +51,25 @@ namespace Persistence
                     Title = "Cake",
                     Date = DateTime.UtcNow.AddMonths(1),
                     Description = "Happy birthday to brick fans ;)",
-                    SpecialParts = new List<Part>
-                    {
-                        specialParts[4]
-                    },
                     Scores = new List<Score> { new Score { Type = ScoreType.Creativity } }
                 }
             };
 
             await context.Posts.AddRangeAsync(posts);
+            await context.SaveChangesAsync();
+
+            var designIds = context.SpecialParts.Select(p => p.DesignId).ToList();
+            var postIds = context.Posts.Select(p => p.Id).ToList();
+
+            var connectors = new List<PostPart>
+            {
+                new PostPart { PostId = postIds[0], PartId = designIds[0] },
+                new PostPart { PostId = postIds[1], PartId = designIds[1] },
+                new PostPart { PostId = postIds[2], PartId = designIds[2] },
+                new PostPart { PostId = postIds[2], PartId = designIds[3] }
+            };
+
+            await context.PostParts.AddRangeAsync(connectors);
             await context.SaveChangesAsync();
         }
     }
