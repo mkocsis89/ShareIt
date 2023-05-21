@@ -8,7 +8,7 @@ namespace Application.Dtos
         public ScoreType Type { get; set; }
     }
 
-    public class ScoreDto : CreateScoreDto
+    public  sealed class ScoreDto : CreateScoreDto
     { 
         public Guid Id { get; set; }
     }

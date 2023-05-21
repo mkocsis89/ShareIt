@@ -32,7 +32,7 @@ try
 {
     var context = services.GetRequiredService<DataContext>();
     await context.Database.MigrateAsync();
-    await Seed.SeedDataAsync(context, app.Environment.IsDevelopment());
+    await Seed.SeedDataAsync(context, false);
 }
 catch (Exception ex)
 {

@@ -9,13 +9,9 @@ namespace Application.Core
         public MappingProfiles()
         {
             CreateMap<CreatePostDto, Post>();
-
-            CreateMap<EditPostDto, Post>()
-                .ForMember(dest => dest.Id, opt => opt.Ignore());
-
-            // TODO
-            CreateMap<Post, PostDto>()
-                .ForMember(dest => dest.SpecialParts, opt => opt.Ignore());
+            CreateMap<EditPostDto, Post>();
+            CreateMap<Post, PostDto>();
+            CreateMap<Score, ScoreDto>();
         }
     }
 }
