@@ -1,5 +1,6 @@
 ﻿using Application.Core;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Persistence;
 
 namespace Application.Scores
@@ -23,7 +24,9 @@ namespace Application.Scores
 
             public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
             {
-                var post = await _context.Posts.FindAsync(request.PostId);
+                var post = await _context.Posts
+                    .Include(post => post.Scores)
+                    .FirstOrDefaultAsync(post => post.Id == request.PostId);
 
                 if (post == null)
                     return null;

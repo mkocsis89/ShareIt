@@ -2,6 +2,7 @@
 using Application.Dtos;
 using Domain;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Persistence;
 
 namespace Application.Scores
@@ -25,12 +26,12 @@ namespace Application.Scores
 
             public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
             {
-                var post = _context.Posts.FirstOrDefault(post => post.Id == request.PostId);
+                var post = await _context.Posts
+                    .Include(post => post.Scores)
+                    .FirstOrDefaultAsync(post => post.Id == request.PostId);
 
                 if (post == null)
-                {
                     return null;
-                }
 
                 // TODO: after Users are implemented
                 //var isScoreExsist = post.Scores.FirstOrDefault(score =>
