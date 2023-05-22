@@ -48,7 +48,7 @@ namespace Application.Posts
             private void Map(Post post, EditPostDto dto)
             {
                 _mapper.Map(dto, post);
-                var partsToAdd = new List<PostPart>();
+                var postPartsToAdd = new List<PostPart>();
 
                 foreach (var designId in dto.SpecialParts.Select(p => p.DesignId).ToList())
                 {
@@ -60,13 +60,12 @@ namespace Application.Posts
                         continue;
                     }
 
-                    partsToAdd.Add(new PostPart { PostId = post.Id, PartId = part.DesignId });
+                    postPartsToAdd.Add(new PostPart { PostId = post.Id, PartId = part.DesignId });
                 }
 
-                var partsToDelete = _context.PostParts.Where(pp => pp.PostId == post.Id).ToList();
-                _context.PostParts.RemoveRange(partsToDelete);
-                _context.PostParts.AddRange(partsToAdd);
-                _context.SaveChanges();
+                var postPartsToDelete = _context.PostParts.Where(pp => pp.PostId == post.Id).ToList();
+                _context.PostParts.RemoveRange(postPartsToDelete);
+                _context.PostParts.AddRange(postPartsToAdd);
             }
         }
     }

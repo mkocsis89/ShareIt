@@ -30,23 +30,16 @@ namespace Application.Posts
 
             public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
             {
-                var post = Map(request.Post);
+                var post = _mapper.Map<Post>(request.Post);
                 _context.Posts.Add(post);
-
                 var isSuccess = await _context.SaveChangesAsync(cancellationToken) > 0;
 
-                if (isSuccess)
-                    return Result<Unit>.Success(Unit.Value);
+                if (!isSuccess)
+                    return Result<Unit>.Failure("Failed to create post");
 
-                return Result<Unit>.Failure("Failed to create post");
-            }
-
-            private Post Map(CreatePostDto dto)
-            {
-                var post = _mapper.Map<Post>(dto);
                 var partsToAdd = new List<PostPart>();
 
-                foreach (var designId in dto.SpecialParts.Select(p => p.DesignId).ToList())
+                foreach (var designId in request.Post.SpecialParts.Select(p => p.DesignId).ToList())
                 {
                     var part = _context.SpecialParts.FirstOrDefault(p => p.DesignId == designId);
 
@@ -60,8 +53,11 @@ namespace Application.Posts
                 }
 
                 _context.PostParts.AddRange(partsToAdd);
-                _context.SaveChanges();
-                return post;
+                isSuccess = await _context.SaveChangesAsync(cancellationToken) > 0;
+
+                return isSuccess
+                    ? Result<Unit>.Success(Unit.Value)
+                    : Result<Unit>.Failure("Failed to create post");
             }
         }
     }

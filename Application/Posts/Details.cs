@@ -29,6 +29,10 @@ namespace Application.Posts
             public async Task<Result<PostDto>> Handle(Query request, CancellationToken cancellationToken)
             {
                 var post = await _context.Posts.Include(p => p.Scores).FirstOrDefaultAsync(p => p.Id == request.Id, cancellationToken);
+
+                if(post == null)
+                    return null;
+
                 var postDto = _mapper.Map<PostDto>(post);
 
                 var postParts = _context.PostParts.Where(pp => pp.PostId == post.Id).Select(pp => pp.PartId).ToList();

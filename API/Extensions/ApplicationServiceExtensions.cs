@@ -1,4 +1,5 @@
-﻿using Application.Core;
+﻿using Application.Commands;
+using Application.Core;
 using Application.Posts;
 using FluentValidation;
 using FluentValidation.AspNetCore;
@@ -27,7 +28,7 @@ namespace API.Extensions
             services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining(typeof(Create.Command)));
             services.AddAutoMapper(typeof(MappingProfiles).Assembly);
             services.AddFluentValidationAutoValidation();
-            services.AddValidatorsFromAssemblyContaining<Create.Command>();
+            services.AddValidatorsFromAssemblyContaining<CreatePostCommandValidator>();
 
             return services;
         }
