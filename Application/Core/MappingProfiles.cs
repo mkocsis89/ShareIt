@@ -8,8 +8,7 @@ namespace Application.Core
     {
         public MappingProfiles()
         {
-            CreateMap<CreatePostDto, Post>();
-            CreateMap<EditPostDto, Post>();
+            CreateMap<PostDto, Post>();
             CreateMap<Post, PostDto>();
             CreateMap<Score, ScoreDto>();
         }

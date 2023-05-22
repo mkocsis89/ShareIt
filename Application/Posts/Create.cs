@@ -12,7 +12,7 @@ namespace Application.Posts
     {
         public sealed class Command : IRequest<Result<Unit>>
         {
-            public CreatePostDto Post { get; set; }
+            public PostDto Post { get; set; }
         }
 
         public sealed class Handler : IRequestHandler<Command, Result<Unit>>

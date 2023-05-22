@@ -1,5 +1,5 @@
-﻿using Application.Posts;
-using Application.Validators;
+﻿using Application.Dtos;
+using Application.Posts;
 using FluentValidation;
 
 namespace Application.Commands
@@ -8,7 +8,17 @@ namespace Application.Commands
     {
         public EditPostCommandValidator()
         {
-            RuleFor(command => command.Post).SetValidator(new EditPostValidator());
+            RuleFor(command => command.Post).SetValidator(new EditPostDtoValidator());
+        }
+    }
+
+    public sealed class EditPostDtoValidator : AbstractValidator<PostDto>
+    {
+        public EditPostDtoValidator()
+        {
+            RuleFor(post => post.Scores).Empty();
+            RuleFor(post => post.Title).NotEmpty();
+            RuleFor(post => post.Description).NotEmpty();
         }
     }
 }

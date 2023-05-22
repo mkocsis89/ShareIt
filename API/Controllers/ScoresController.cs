@@ -8,7 +8,7 @@ namespace API.Controllers
     public sealed class ScoresController : BaseApiController
     {
         [HttpPost()]
-        public async Task<IActionResult> Score(Guid postId, CreateScoreDto score)
+        public async Task<IActionResult> Score(Guid postId, ScoreDto score)
         {
             return HandleResult(await Mediator.Send(new Create.Command { PostId = postId, Score = score }));
         }

@@ -24,62 +24,45 @@
 			"response": []
 		},
 		{
-			"name": "Edit a Post same fields",
-			"event": [
-				{
-					"listen": "prerequest",
-					"script": {
-						"exec": [
-							"var moment = require(\"moment\");\r",
-							"\r",
-							"pm.environment.set('activityDate', moment().add(14, 'days').toISOString());"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
+			"name": "Get Post",
 			"request": {
-				"method": "PUT",
-				"header": [
-					{
-						"key": "Content-Type",
-						"name": "Content-Type",
-						"type": "text",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "// send a valid edit first\n{\n\t\"title\": \"Fancy looking car\",\n\t\"date\": \"2023-05-30T09:23:22.803\", // swap this with its own date\n    \"description\": \"Wroom\",\n\t\"specialParts\": [ { \"name\": \"Wheel\" } ]\n}"
-				},
+				"method": "GET",
+				"header": [],
 				"url": {
-					"raw": "{{url}}/api/posts/71acdbcb-5589-4f8e-80ac-f2860c598c38",
+					"raw": "{{url}}/api/posts/2075d5f0-4dcf-461c-8a6d-c2412a1e7929",
 					"host": [
 						"{{url}}"
 					],
 					"path": [
 						"api",
 						"posts",
-						"71acdbcb-5589-4f8e-80ac-f2860c598c38"
+						"2075d5f0-4dcf-461c-8a6d-c2412a1e7929"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "Get Post",
+			"name": "Get non existant Post",
 			"request": {
 				"method": "GET",
-				"header": [],
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
 				"url": {
-					"raw": "{{url}}/api/posts/69932641-429f-47d6-94ef-0112e5d95abd",
+					"raw": "{{url}}/api/posts/20c61c0e-95a5-4c44-a50b-3adb35f1f5bf",
 					"host": [
 						"{{url}}"
 					],
 					"path": [
 						"api",
 						"posts",
-						"69932641-429f-47d6-94ef-0112e5d95abd"
+						"20c61c0e-95a5-4c44-a50b-3adb35f1f5bf"
 					]
 				}
 			},
@@ -111,7 +94,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"id\": \"{{$guid}}\",\n\t\"title\": \"Test Create Post\",\n\t\"date\": \"{{activityDate}}\",\n    \"description\": \"Description of the test event\",\n\t\"specialParts\":  [ { \"name\": \"Frog\" }, { \"name\": \"Start\" }, { \"name\": \"Shield\" } ]\n}"
+					"raw": "{\n\t\"title\": \"Test Create Post\",\n\t\"date\": \"{{activityDate}}\",\n    \"description\": \"Description of the test event\",\n\t\"specialParts\":  [ { \"designId\": 4003 } ]\n}"
 				},
 				"url": {
 					"raw": "{{url}}/api/posts/",
@@ -122,90 +105,6 @@
 						"api",
 						"posts",
 						""
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Edit Post",
-			"event": [
-				{
-					"listen": "prerequest",
-					"script": {
-						"exec": [
-							"var moment = require(\"moment\");\r",
-							"\r",
-							"pm.environment.set('activityDate', moment().add(14, 'days').toISOString());"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "PUT",
-				"header": [
-					{
-						"key": "Content-Type",
-						"name": "Content-Type",
-						"type": "text",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n\t\"title\": \"Fancy looking car\",\n\t\"date\": \"{{activityDate}}\",\n    \"description\": \"Wroom\",\n\t\"specialParts\": [ { \"name\": \"Wheel\" } ]\n}"
-				},
-				"url": {
-					"raw": "{{url}}/api/posts/6000294c-9c18-4023-a337-59e20f805511",
-					"host": [
-						"{{url}}"
-					],
-					"path": [
-						"api",
-						"posts",
-						"6000294c-9c18-4023-a337-59e20f805511"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Delete Post",
-			"event": [
-				{
-					"listen": "prerequest",
-					"script": {
-						"exec": [
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "DELETE",
-				"header": [
-					{
-						"key": "Content-Type",
-						"name": "Content-Type",
-						"type": "text",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "{{url}}/api/posts/4b839a35-a394-4c69-b712-e8e1f996492e",
-					"host": [
-						"{{url}}"
-					],
-					"path": [
-						"api",
-						"posts",
-						"4b839a35-a394-4c69-b712-e8e1f996492e"
 					]
 				}
 			},
@@ -241,7 +140,7 @@
 			"response": []
 		},
 		{
-			"name": "Edit Post missing fields",
+			"name": "Edit Post (see body)",
 			"event": [
 				{
 					"listen": "prerequest",
@@ -267,43 +166,58 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"title\": \"Fancy looking car\",\n\t\"date\": \"{{activityDate}}\",\n    //\"description\": \"Wroom\",   // required field\n\t\"specialParts\": [ { \"name\": \"Wheel\" } ]\n}"
+					"raw": "// edit an existing post\n{\n\t\"title\": \"Fancy looking car\",\n\t\"date\": \"2023-05-30T09:23:22.803\",\n    \"description\": \"Wroom\",\n\t\"specialParts\": [ { \"designId\": 4003 } ]\n}\n\n// edit again the post with the same payload\n/*{\n\t\"title\": \"Fancy looking car\",\n\t\"date\": \"2023-05-30T09:23:22.803\",\n    \"description\": \"Wroom\",\n\t\"specialParts\": [ { \"designId\": 4003 } ]\n}*/\n\n// edit again with missing fields\n/*{\n\t\"title\": \"Fancy looking car\",\n\t\"date\": \"2023-05-30T09:23:22.803\",\n    //\"description\": \"Wroom\",\n\t\"specialParts\": [ { \"designId\": 4003 } ]\n}*/"
 				},
 				"url": {
-					"raw": "{{url}}/api/posts/e790dde4-f422-4a33-8245-1b5c36cba083",
+					"raw": "{{url}}/api/posts/2075d5f0-4dcf-461c-8a6d-c2412a1e7929",
 					"host": [
 						"{{url}}"
 					],
 					"path": [
 						"api",
 						"posts",
-						"e790dde4-f422-4a33-8245-1b5c36cba083"
+						"2075d5f0-4dcf-461c-8a6d-c2412a1e7929"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "Get non existant Post",
+			"name": "Delete Post",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
-				"method": "GET",
+				"method": "DELETE",
 				"header": [
 					{
 						"key": "Content-Type",
 						"name": "Content-Type",
-						"value": "application/json",
-						"type": "text"
+						"type": "text",
+						"value": "application/json"
 					}
 				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
 				"url": {
-					"raw": "{{url}}/api/posts/20c61c0e-95a5-4c44-a50b-3adb35f1f5bf",
+					"raw": "{{url}}/api/posts/2075d5f0-4dcf-461c-8a6d-c2412a1e7929",
 					"host": [
 						"{{url}}"
 					],
 					"path": [
 						"api",
 						"posts",
-						"20c61c0e-95a5-4c44-a50b-3adb35f1f5bf"
+						"2075d5f0-4dcf-461c-8a6d-c2412a1e7929"
 					]
 				}
 			},

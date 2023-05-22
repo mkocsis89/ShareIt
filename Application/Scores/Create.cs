@@ -11,7 +11,7 @@ namespace Application.Scores
         public sealed class Command : IRequest<Result<Unit>>
         {
             public Guid PostId { get; set; }
-            public CreateScoreDto Score { get; set; }
+            public ScoreDto Score { get; set; }
         }
 
         public sealed class Handler : IRequestHandler<Command, Result<Unit>>
